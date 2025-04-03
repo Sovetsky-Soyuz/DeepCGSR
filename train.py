@@ -5,7 +5,7 @@ from sklearn.metrics import roc_auc_score, rmse, mae
 from sklearn.model_selection import train_test_split
 
 from torch.utils.data import DataLoader
-from torchfm.dataset.movielens import MovieLens1MDataset, MovieLens20MDataset
+# from torchfm.dataset.movielens import MovieLens1MDataset, MovieLens20MDataset
 from torchfm.model.fm import FactorizationMachineModel
 
 
@@ -69,18 +69,10 @@ def test(model, data_loader, device):
     return roc_auc_score(targets, predicts)
 
 
-def main(dataset_name,
-         dataset_path,
-         model_name,
-         epoch,
-         learning_rate,
-         batch_size,
-         weight_decay,
-         device,
-         save_dir):
+def main(model_name, epoch, learning_rate, batch_size, random_state, weight_decay, device, save_dir):
     device = torch.device(device)
     dataset = get_dataset(dataset_name, dataset_path)
-    train_length = int(len(dataset) * 0.8)
+    train_length = int(len(dataset) * 0.7)
     valid_length = int(len(dataset) * 0.1)
     test_length = len(dataset) - train_length - valid_length
     train_dataset, valid_dataset, test_dataset = torch.utils.data.random_split(
